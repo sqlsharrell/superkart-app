@@ -8,8 +8,17 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Set the working directory in the container
 WORKDIR /app
 
-# Install network utilities (ping, curl) for debugging
-RUN apt-get update && apt-get install -y iputils-ping curl && rm -rf /var/lib/apt/lists/*
+# Install network utilities (ping, curl) for debugging with retry for apt-get update
+RUN set -ex; \
+    MAX_RETRIES=5; \
+    RETRY_DELAY=5; \
+    for i in $(seq 1 $MAX_RETRIES); do \
+        if apt-get update; then break; fi; \
+        echo "apt-get update failed, retrying in $RETRY_DELAY seconds..."; \
+        sleep $RETRY_DELAY; \
+    done; \
+    if [ $i -eq $MAX_RETRIES ]; then echo "apt-get update failed after $MAX_RETRIES retries, exiting."; exit 1; fi; \
+    apt-get install -y iputils-ping curl && rm -rf /var/lib/apt/lists/*
 
 # Copy the requirements file and install dependencies
 COPY requirements.txt .
