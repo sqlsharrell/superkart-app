@@ -5,6 +5,9 @@ FROM python:3.9-slim-buster
 # Set the working directory in the container
 WORKDIR /app
 
+# Install network utilities (ping, curl) for debugging
+RUN apt-get update && apt-get install -y iputils-ping curl && rm -rf /var/lib/apt/lists/*
+
 # Copy the requirements file and install dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
