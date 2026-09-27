@@ -4,15 +4,13 @@ import joblib
 import pandas as pd
 from flask import Flask, request, jsonify
 
-# Define the output directory for model and other files relative to the container's WORKDIR
-# Since COPY . . puts files directly into WORKDIR, output_dir should be '.'
-output_dir = '.'
-
 # Initialize Flask app
 app = Flask(__name__)
 
-# --- Load the Model and Preprocessing Components --- #
-model_path = os.path.join(output_dir, 'superkart_model.joblib')
+# --- Load the Model and Preprocessing Components ---
+# The model file is copied directly into the /app directory (WORKDIR) inside the Docker container.
+# Therefore, the path should be relative to the WORKDIR.
+model_path = 'superkart_model.joblib'
 model = joblib.load(model_path)
 
 # Define the order of columns expected by the model (excluding 'Store_Id')
@@ -42,7 +40,7 @@ model_features = [
     'Store_Type_Food Mart', 'Store_Type_Supermarket Type1', 'Store_Type_Supermarket Type2'
 ]
 
-# --- Preprocessing Function --- #
+# --- Preprocessing Function ---
 def preprocess_input(data: pd.DataFrame) -> pd.DataFrame:
     # 1. Data Cleaning: Normalizing 'Product_Sugar_Content'
     data['Product_Sugar_Content'] = data['Product_Sugar_Content'].replace({
@@ -91,7 +89,7 @@ def preprocess_input(data: pd.DataFrame) -> pd.DataFrame:
 
     return final_data
 
-# --- API Endpoints --- #
+# --- API Endpoints ---
 
 # Health check endpoint
 @app.route('/health', methods=['GET'])
