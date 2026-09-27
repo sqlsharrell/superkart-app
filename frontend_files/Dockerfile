@@ -8,13 +8,14 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Set the working directory in the container
 WORKDIR /app
 
-# Update package lists and install network utilities (ping, curl)
+# Update package lists, perform a dist-upgrade, and then install network utilities (ping, curl)
 # Ensure full cache cleanup before and after to prevent issues with stale package references
-# Removed 'apt-get upgrade -y' as it was causing 404 errors for security packages.
+# dist-upgrade is used to aggressively resolve dependencies and update system packages.
 RUN set -ex; \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get update && \
+    apt-get dist-upgrade -y && \
     apt-get install -y --no-install-recommends iputils-ping curl && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
