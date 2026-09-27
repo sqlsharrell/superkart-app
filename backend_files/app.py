@@ -42,7 +42,7 @@ model_features = [
 
 # --- Preprocessing Function ---
 def preprocess_input(data: pd.DataFrame) -> pd.DataFrame:
-    # 1. Data Cleaning: Normalizing 'Product_Sugar_Content'
+    # 1. Data Cleaning: Normalizing 'Product_Sugar_Content',
     data['Product_Sugar_Content'] = data['Product_Sugar_Content'].replace({
         'reg': 'Regular'
     })
@@ -90,6 +90,10 @@ def preprocess_input(data: pd.DataFrame) -> pd.DataFrame:
     return final_data
 
 # --- API Endpoints ---
+
+@app.route('/', methods=['GET'])
+def root_endpoint():
+    return jsonify({'message': 'SuperKart Backend API is running. Access /health for status or /v1/predict for predictions.'})
 
 # Health check endpoint
 @app.route('/health', methods=['GET'])
