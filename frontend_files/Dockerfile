@@ -8,12 +8,13 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Set the working directory in the container
 WORKDIR /app
 
-# Update package lists and install network utilities (ping, curl)
+# Update package lists, upgrade existing packages, and install network utilities (ping, curl)
 # Ensure full cache cleanup before and after to prevent issues with stale package references
 RUN set -ex; \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get update && \
+    apt-get upgrade -y && \
     apt-get install -y --no-install-recommends iputils-ping curl && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
