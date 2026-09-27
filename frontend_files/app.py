@@ -105,14 +105,16 @@ uploaded_file = st.file_uploader("Upload a CSV file for batch prediction", type=
 if uploaded_file is not None:
     # Display uploaded data for user to verify
     st.subheader("Uploaded Data Preview")
-    batch_df = pd.read_csv(uploaded_file)
-    st.write(batch_df.head())
+    # Create a copy to prevent Streamlit from automatically re-reading if the user interacts with the widget again
+    batch_df_preview = pd.read_csv(uploaded_file)
+    st.write(batch_df_preview.head())
 
     if st.button("Run Batch Prediction"):
         try:
             # Reset file pointer to the beginning after reading for preview
             uploaded_file.seek(0)
-            files = {'file': uploaded_file.getvalue()}
+            # Correctly pass the file with its name and content type
+            files = {'file': (uploaded_file.name, uploaded_file.getvalue(), uploaded_file.type)}
             batch_response = requests.post(batch_prediction_endpoint, files=files)
 
             if batch_response.status_code == 200:
