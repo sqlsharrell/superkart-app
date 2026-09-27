@@ -8,11 +8,11 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Set the working directory in the container
 WORKDIR /app
 
-# Update package lists with verbose error reporting
-RUN set -ex; apt-get update
-
-# Install network utilities (ping, curl) for debugging
-RUN apt-get install -y iputils-ping curl && rm -rf /var/lib/apt/lists/*
+# Update package lists and install network utilities (ping, curl) in a single RUN command
+RUN set -ex; \
+    apt-get update && \
+    apt-get install -y iputils-ping curl --no-install-recommends && \
+    rm -rf /var/lib/apt/lists/*
 
 # Copy the requirements file and install dependencies
 COPY requirements.txt .
