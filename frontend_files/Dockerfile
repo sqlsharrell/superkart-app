@@ -8,8 +8,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Set the working directory in the container
 WORKDIR /app
 
-# Update package lists
-RUN apt-get update
+# Update package lists with verbose error reporting
+RUN set -ex; apt-get update
 
 # Install network utilities (ping, curl) for debugging
 RUN apt-get install -y iputils-ping curl && rm -rf /var/lib/apt/lists/*
