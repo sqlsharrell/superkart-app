@@ -10,7 +10,7 @@ app = Flask(__name__)
 # --- Load the Model and Preprocessing Components ---
 # The model file is copied directly into the /app directory (WORKDIR) inside the Docker container.
 # Therefore, the path should be relative to the WORKDIR.
-model_path = 'backend_files/superkart_model.joblib'
+model_path = 'superkart_model.joblib'
 model = joblib.load(model_path)
 
 # Define the order of columns expected by the model (excluding 'Store_Id')
