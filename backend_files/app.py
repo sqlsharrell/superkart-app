@@ -4,8 +4,9 @@ import joblib
 import pandas as pd
 from flask import Flask, request, jsonify
 
-# Define the output directory for model and other files
-output_dir = 'backend_files'
+# Define the output directory for model and other files relative to the container's WORKDIR
+# Since COPY . . puts files directly into WORKDIR, output_dir should be '.'
+output_dir = '.'
 
 # Initialize Flask app
 app = Flask(__name__)
