@@ -1,6 +1,6 @@
 
 # Use a lightweight Python base image
-FROM python:3.9-slim-bullseye
+FROM python:3.9-slim-bookworm
 
 # Set non-interactive frontend for apt-get commands
 ENV DEBIAN_FRONTEND=noninteractive
