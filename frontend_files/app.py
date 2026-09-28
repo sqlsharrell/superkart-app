@@ -13,7 +13,7 @@ st.markdown("Predict product sales for optimal inventory and strategic planning.
 # --- Backend API URL ---
 # In Codespaces, this should be the service name if using Docker Compose, or the exposed port directly.
 # For local testing, ensure your Flask backend is running on http://localhost:7860
-backend_url = os.environ.get("BACKEND_URL", "http://backend:7860") # 'backend' is the service name in docker-compose
+backend_url = os.environ.get("BACKEND_URL", "http://localhost:7860") # 'backend' is the service name in docker-compose
 prediction_endpoint = f"{backend_url}/v1/predict"
 batch_prediction_endpoint = f"{backend_url}/v1/predictbatch"
 
