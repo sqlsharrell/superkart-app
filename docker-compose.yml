@@ -18,7 +18,9 @@ services:
     ports:
       - "8501:8501"
     environment:
-      - BACKEND_URL=http://backend:7860  # 'backend' is the service name in docker-compose
+      - BACKEND_URL=http://host.docker.internal:7860  # adjusted to fix connection issues
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     networks:
       - superkart_network
     restart: always
