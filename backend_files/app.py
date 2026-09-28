@@ -91,10 +91,6 @@ def preprocess_input(data: pd.DataFrame) -> pd.DataFrame:
 
 # --- API Endpoints ---
 
-@app.route('/', methods=['GET'])
-def root_endpoint():
-    return jsonify({'message': 'SuperKart Backend API is running. Access /health for status or /v1/predict for predictions.'})
-
 # Health check endpoint
 @app.route('/health', methods=['GET'])
 def health_check():
